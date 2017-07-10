@@ -61,7 +61,7 @@ public:
   int updateTesselation(double *x[3], int upNumParticles);
   int count_number_of_faces(void);
   int extrGeom(double* x[3], double* dcom[3], double* volume,
-             double* face_area, double* face_com[3], double* face_n[3], int* pair_i, int* pair_j,
+             double* faceArea, double* faceCom[3], double* faceN[3], int* pair_i, int* pair_j,
              std::vector< std::vector<int> > &neighbors);
 };
 #endif
