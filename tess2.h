@@ -58,8 +58,8 @@ public:
   Tess2d(void);
   void reset_tess(void);
   int buildTesselation(double *x[3], double *radius, int numParticles, double maxRadi);
-  int updateTesselation(double *x[3], int upNumParticles);
-  int count_number_of_faces(void);
+  //int updateTesselation(double *x[3], int upNumParticles);, no need with no boundary regions and ghost particles
+  int countNumFaces(void);
   int extrGeom(double* x[3], double* dcom[3], double* volume,
              double* faceArea, double* faceCom[3], double* faceN[3], int* pair_i, int* pair_j,
              std::vector< std::vector<int> > &neighbors);

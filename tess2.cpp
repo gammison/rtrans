@@ -19,19 +19,19 @@ typedef Tess::Point Point;
 typedef Tess::Edge Edge;
 typedef Tess::Edge_circulator edgeCirc;
 
-tess2::tess2(void){
+Tess2d::Tess2d(void){
         ptess = NULL; //the tesselation
         pVertList = NULL; //vertex list
 }
 
-void tess2::resetTess(){
-        delete static_cast<tess2*>(ptess);
+void Tess2d::resetTess(){
+        delete static_cast<Tess2d*>(ptess);
         delete static_cast<std::vector<vertexHandle>>pVertList;
         ptess = NULL;
         pVertList = NULL;
 }
 
-int tess2::buildTesselation(double *x[3], double *radius,  int particleNum, double maxRadi){ //possible builder pattern switch?
+int Tess2d::buildTesselation(double *x[3], double *radius,  int particleNum, double maxRadi){ //possible builder pattern switch?
         //maxRadi and radius used for casting rays
         locNumParticles=particleNum;
 
@@ -107,7 +107,7 @@ int tess2::buildTesselation(double *x[3], double *radius,  int particleNum, doub
         return 0;
 }
 
-int tess2::updateTesselation(
+/*int Tess2d::updateTesselation(
         double *x[3],
         int upNumParticles) {
 
@@ -128,9 +128,9 @@ int tess2::updateTesselation(
         vt->info() = j;
     }
     return 0;
-}
+}*/ //ghost particles not needed for current simulation, only one box used, no multi core.
 
-int tess2::count_number_of_faces(void) {
+int Tess2d::countNumFaces(void) {
 
     Tess &tess = *(Tess*) ptess;
     std::vector<Vertex_handle> &vertList = *static_cast<d::vector<VertexHandle>*>(pVertList);
@@ -173,7 +173,7 @@ int tess2::count_number_of_faces(void) {
     return num_faces;
 }
 
-int tess2::extrGeom(
+int Tess2d::extrGeom(
         double* x[3],
         double* dcom[3],
         double* volume,
@@ -310,4 +310,4 @@ int tess2::extrGeom(
     //std::size_t memory = CGAL::Memory_sizer().resident_size();
     //std::cout << "Tessellation size: " << (memory >> 20) <<  " Mib" <<std::endl;
     return fc;
-} //should be split up later for readability, maybe a helper class with all calculations 
+} //should be split up later for readability, maybe a helper class with all calculations
