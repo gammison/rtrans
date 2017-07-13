@@ -1,11 +1,8 @@
 from libcpp.vector cimport vector
-#need to add boundary and particle from phd/boundary
 from libcpp.vector cimport vector
 
-#from ..boundary.boundary cimport Boundary
-#from ..containers.containers cimport CarrayContainer
 from ..utilities.datacontainer cimport dataContainer
-ctypedef vector[int] nn           # nearest neighbors, cell indices
+ctypedef vector[int] nn           # nearest neighbors, given as cell indices
 ctypedef vector[nn] nn_vec
 
 cdef extern from "tess2.h":
@@ -19,7 +16,7 @@ cdef extern from "tess2.h":
                 double* faceArea, double* fCom[3], double* faceN[3],
                 int* pair_i, int* pair_j, nn_vec &neighbors)
 
-  
+
 cdef class PyTess:
 
     cdef void reset_tess(self)
@@ -38,10 +35,9 @@ cdef class PyTess2d(PyTess):
 
 cdef class Mesh:
 
-    #cdef public Boundary boundary
-    #cdef public CarrayContainer faces
+
     cdef public dataContainer faces
-    cdef public int dim
+    #cdef public int dim, not used since starting with 2D only
     cdef public list fields
 
     cdef PyTess tess
