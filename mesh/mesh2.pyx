@@ -37,8 +37,8 @@ cdef class PyTess2d(PyTess):
   cdef int buildTesselation(self, double *x[3], double *radius2, int numParticles, double maxRadi):
       return self.thisptr.buildTesselation(x, radius2, numParticles, maxRadi)
 
-  #cdef int update_initial_tess(self, double *x[3], int up_num_particles):
-  #    return self.thisptr.update_initial_tess(x, up_num_particles) Not neeeded, no parallelization
+  #cdef int update_initial_tess(self, double *x[3], int upNumParticles):
+  #    return self.thisptr.updateTesselation(x, upNumParticles) Not neeeded, no parallelization
 
   cdef int countNumFaces(self):
       return self.thisptr.countNumFaces()
@@ -49,3 +49,25 @@ cdef class PyTess2d(PyTess):
       return self.thisptr.extrGeom(x, dCom, volume,
               faceArea, faceCom, faceN,
               pair_i, pair_j, neighbors)
+
+#cdef class PyTess3d(PyTess): Not implemented yet, doing 2D grid first
+
+cdef class Mesh2:
+    def __init__(self, int numNeighbors):
+      cdef nn nearestNeigh = nn()
+      self.neighbors == nn_vec(numNeighbors,nearestNeigh)
+
+    def _initialize(self):
+      faceVars = {
+      "area": "double",
+      "pair-i": "long",
+      "com-x": "double",
+      "com-y": "double",
+      "velocity-x": "double",
+      "velocity-y": "double",
+      "normal-x": "double",
+      "normal-y": "double"
+      }
+
+      self.fields = ["volume","dcom-x","dcom-y"]
+      self.faces = dataContainer(var=faceVars)
