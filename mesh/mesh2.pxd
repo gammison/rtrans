@@ -18,7 +18,6 @@ cdef extern from "tess2.h":
 
 
 cdef class PyTess:
-
     cdef void reset_tess(self)
     cdef int buildTesselation(self, double *x[3], double *radius, int numParticles, double maxRadi)
     cdef int updateTesselation(self, double *x[3], int upNumParticles)
@@ -34,8 +33,6 @@ cdef class PyTess2d(PyTess):
 #    cdef Tess3d *thisptr
 
 cdef class Mesh:
-
-
     cdef public cellContainer faces
     #cdef public int dim, not used since starting with 2D only
     cdef public list fields
