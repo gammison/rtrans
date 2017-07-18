@@ -1,7 +1,7 @@
 from libcpp.vector cimport vector
 from libcpp.vector cimport vector
 
-from ..utilities.datacontainer cimport dataContainer
+from ..utilities.cellContainer cimport cellContainer
 ctypedef vector[int] nn           # nearest neighbors, given as cell indices
 ctypedef vector[nn] nn_vec
 
@@ -36,7 +36,7 @@ cdef class PyTess2d(PyTess):
 cdef class Mesh:
 
 
-    cdef public dataContainer faces
+    cdef public cellContainer faces
     #cdef public int dim, not used since starting with 2D only
     cdef public list fields
 

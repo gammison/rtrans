@@ -2,9 +2,9 @@ import numpy as np
 cimport numpy as np
 cimport libc.stdlib as stdlib
 
-from ..utilities.dataContainer import dataContainer
-from ..utilities.dataContainer import dataArray
-#something like this needed in dataContainer
+from ..utilities.cellContainer import cellContainer
+from ..utilities.cellContainer import doubleArray
+#something like this needed in cellContainer
 
 cdef class PyTess: #used as template for 2D and 3D tesselations, only 2D used inititially, 3d not implelemented
   cdef void resetTess(self):
@@ -59,15 +59,25 @@ cdef class Mesh2:
 
     def _initialize(self):
       faceVars = {
-      "area": "double",
-      "pair-i": "long",
+      "area": "double", #perhaps should be length?
+      "pair-i": "long", #the cells on inside and outside of a face
+      "pair-j": "long",
       "com-x": "double",
-      "com-y": "double",
+      "com-y": "double", #really center of area
       "velocity-x": "double",
       "velocity-y": "double",
-      "normal-x": "double",
-      "normal-y": "double"
+      "norm-x": "double",
+      "norm-y": "double"
       }
 
-      self.fields = ["volume","dcom-x","dcom-y"]
-      self.faces = dataContainer(var=faceVars)
+      self.fields = ["volume","dcom-x","dcom-y"] #volume perhaps area or use volume for generalization
+      self.faces = cellContainer(varDict=faceVars)
+      self.faces.namedGroups['velocity'] = ['velocity-x', 'velocity-y']
+      self.faces.namedGroups['norm'] = ['norm-x', 'norm-y']
+      self.faces.namedGroups['com'] = ['com-x', 'com-y']
+
+      self.tess = PyTess2d
+
+    def tessellate(self, cellContainer pc):
+        self._tessellate(pc)
+    cdef _tessellate(self, cellContainer pc):
