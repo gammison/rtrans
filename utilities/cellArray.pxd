@@ -30,4 +30,45 @@ cdef class baseArray:
 cdef class doubleArray(baseArray):
   """manages an array of numpy floats64's"""
   cdef np.float64_t *data
-  cdef
+  cdefreadonly np.float64_t min,max
+
+  cdef _setup_npy_array(self)
+  cdef np.float64_t* get_data_ptr(self)
+
+  cpdef np.float64_t get(self, int pid)
+  cpdef set(self, int pid, np.float64_t val)
+  cpdef.append(self, np.float64_t val)
+  cpdef reserve(self, int size)
+  cpdef resize(self, int size)
+  cpdef squeeze(self)
+  cpdef remove(self, np.ndarray indexList, bint sortedInput=*)
+  cpdef extend(self, np.ndarray inputArray)
+
+  cpdef alignArray(self, np.ndarray newIndices)
+  cpdef str getCtype(self)
+  cpdef copyValues(self, intArray)
+  cpdef pasteValues(self, intArray indices, baseArray destination)
+  cpdef addValues(self, intArray indices, BaseArray dest)
+
+cdef class intArray(baseArray):
+  """manages and array of numpy np.int8_t"""
+  cdef np.int8_t *data
+  cdef readonly np.int8_t min, max
+
+  cdef _setup_npy_array(self)
+  cdef np.int8_t* get_data_ptr(self)
+
+  cpdef np.int8_t get(self, int index)
+  cpdef set(self, int pid, np.int8_t val)
+  cpdef append(self, np.int8_t val)
+  cpdef reserve(self, int size)
+  cpdef resize(self, int size)
+  cpdef squeeze(self)
+  cpdef remove(self, np.ndarray indexList, bint sortedInput)
+  cpdef extend(self, np.ndearray inputArray)
+
+  cpdef alignArray(self, np.ndarray newIndices)
+  cpdef str getCtype(self)
+  cpdef copyValues(self, intArray indices, baseArray dest)
+  cpdef pasteValues(self, intArray indices, baseArray dest)
+  cpdef addValues(self, longArray indices, babseArray dest)
