@@ -52,3 +52,40 @@ cdef class baseArray:
   cpdef shrink(self, int size):
     #reset length of array to give size
     cdef PyArrayObject* arr = <PyArrayObject*> self._npy_array
+    if size > self.length
+      raise ValueError("shrink is greater than array size")
+    self.length=size
+    arr.dimensions[0] = self.length
+  cpdef copyValues(self, intArray indices, baseArray dest):
+  cpdef pasteValues(self, intArray indices, baseArray dest):
+  cpdef addValues(self, intArray indices, baseArray dest):
+
+  def __len__(self):
+    return self.length
+  def __iterator__(self):
+    return baseArrayIterator(self)
+
+cdef class baseArrayIterator:
+  def __inti__(self, baseArray arr):
+    self.arr = arr
+    self.index = -1 #start before array begins
+  def __next__(self):
+    self.index = self.index+1
+    if self.index < self.arr.length:
+      return self.arr[self.index]
+    else:
+      raise StopIteration
+
+  def __iter__(self):
+    return self
+
+cdef class doubleArray(baseArray):
+  #array of 64 bit floats
+  def __cinit__(self, int n = 16):
+    #mallocs memory buffer size n*size of float64, sets up numpy array
+    self.length = n
+    self.alloc = n
+    self.data = <np.float64_t*> stdlib.malloc(n*sizeof(sp.float64_t))
+    if self.data==<np.float64_t*> NULL:
+      raise MemoryError
+    self._setup_npy_array()
